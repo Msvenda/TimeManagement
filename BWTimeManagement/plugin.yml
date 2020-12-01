@@ -1,0 +1,25 @@
+name: BWTimeManagement
+main: com.bwroleplay.bwtime.TimeManagement
+version: 1.1
+api-version: 1.15
+author: MX26
+description: "daytime cycle management and date tracking plugin."
+softdepend: [Essentials]
+permissions:
+  timeManager.manager:
+    description: gives access to all management commands
+commands:
+  doTimeHere:
+    description: "enables or disables daytime cycle in world"
+    permission: timeManager.manager
+    permission-message: "You cannot use this command."
+    usage: "/doTimeHere [boolean]"
+  setDate:
+    description: "set the day, month and year. Optionally set hours and minutes"
+    permission: timeManager.manager
+    permission-message: "You cannot use this command."
+    usage: "/setDate <day> <month> <year> [<hour> <minute>]"
+  checkTime:
+    description: "check the date"
+    permission: timeManager.manager
+    permission-message: "You cannot use this command."
