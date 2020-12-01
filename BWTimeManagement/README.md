@@ -12,7 +12,7 @@
 <list>
     <li>Set the day, month and year. Optionally set hours and minutes</li>
     <li>Required permission: timeManager.manager</li>
-    <li>Usage: "/setDate <day> <month> <year> [<hour> <minute>]"</li>
+    <li>Usage: "/setDate &lt;day> &lt;month> &lt;year> [&lt;hour> &lt;minute>]"</li>
 </list>
 <b>checkTime:</b>
 <list>
@@ -25,6 +25,7 @@
 
 <p>The plugin will automatically generate a configuration file if it does not find a valid one located at <code>...\plugins\BWTimeManagement\config.yml</code>. The structure of the config file is as follows:</p>
 
+<p>
 <code>
 starting time: #auto generated </br>
 update interval (s): #update interval in seconds, higher values may cause jerky sun/moon movement. Defaults to 10</br>
@@ -35,6 +36,7 @@ months: #list of months in one in-game year</br>
 - Month 2</br>
 worlds: [] #list of uid's of excluded worlds, populated through doTimeHere command.</br>
 </code>
+</p>
 
 <h2>3. Plugin API</h2>
 
@@ -57,4 +59,4 @@ You can access the ServerTime object responsible for tracking the custom game ti
 <li><code>getFullTime()</code>: Gets the current date, time and moon phase as a string</li>
 </list>
 
-<p>For an example of how to use the API you can check out BWDeathChest</p>
+<p>For an example of how to use the API you can check out <a href = "https://github.com/Msvenda/DeathChest/tree/master/BWDeathChest">BWDeathChest</a></p>
