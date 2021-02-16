@@ -13,11 +13,15 @@ BW Time Management is a Spigot plugin that allows for customization of the day n
 - Set the day, month and year. Optionally set hours and minutes*  
 - Required permission: timeManager.manager
 - Usage: "/setDate <day> <month> <year> [<hour> <minute>]"
-    
+
+**getTimeInfo:**   
+- get detailed date and time information
+- Required permission: timeManager.manager
+- Usage: "/getTimeInfo"
+
 **checkTime:**
 - Check the current date  
-- Required permission: timeManager.manager 
-- Usage: "/checkTime"</list>
+- Usage: "/checkTime"
 
 ## 2\. Plugin configuration
 
