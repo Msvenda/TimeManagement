@@ -14,7 +14,6 @@ import com.bwroleplay.bwtime.util.DataLayer;
 import com.bwroleplay.bwtime.util.LoggingTools;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -68,7 +67,7 @@ public class TimeManagement extends JavaPlugin{
 	
 		//stop day/night cycle in worlds
 		for(UUID uid : DataLayer.getDataLayer().getWorlds()) {
-			Bukkit.getWorld(uid).setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
+			Bukkit.getWorld(uid).setGameRuleValue("doDaylightCycle", "false");
 		}
 		
 		//initialize ServerTime with settings
@@ -139,8 +138,8 @@ public class TimeManagement extends JavaPlugin{
 				long ticks = DataLayer.getDataLayer().getServerTime().dayTimeInTicks();
 				for(UUID uid : DataLayer.getDataLayer().getWorlds()) {
 					World w = Bukkit.getWorld(uid);
-					if(w.getGameRuleValue(GameRule.DO_DAYLIGHT_CYCLE)) {
-						w.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+					if(Boolean.parseBoolean(w.getGameRuleValue("doDaylightCycle"))) {
+						w.setGameRuleValue("doDaylightCycle", "false");
 					}
 					w.setFullTime(ticks);
 				}

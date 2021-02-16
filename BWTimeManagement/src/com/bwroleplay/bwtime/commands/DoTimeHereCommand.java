@@ -2,7 +2,6 @@ package com.bwroleplay.bwtime.commands;
 
 import com.bwroleplay.bwtime.util.DataLayer;
 import org.bukkit.ChatColor;
-import org.bukkit.GameRule;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,11 +25,11 @@ public class DoTimeHereCommand implements CommandExecutor {
         if(doWorld && !dataLayer.getWorlds().contains(p.getWorld().getUID())) {
             dataLayer.getWorlds().add(p.getWorld().getUID());
             p.getWorld().setTime(dataLayer.getServerTime().dayTimeInTicks());
-            p.getWorld().setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+            p.getWorld().setGameRuleValue("doDaylightCycle", "false");
         }
         else {
             dataLayer.getWorlds().remove(p.getWorld().getUID());
-            p.getWorld().setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
+            p.getWorld().setGameRuleValue("doDaylightCycle", "true");
         }
         sender.sendMessage(ChatColor.GRAY + "[Server -> ME]:  Time tracking in world " + p.getWorld().getUID().toString() + ": " + doWorld);
 
