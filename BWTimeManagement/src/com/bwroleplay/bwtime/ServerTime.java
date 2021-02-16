@@ -9,12 +9,13 @@ import java.util.List;
  *
  */
 public class ServerTime {
+	private static ServerTime singleton;
+
 	private double minSec;
 	private double hSec;
 	private long dSec;
 	private long mSec;
 	private long ySec;
-	
 	
 	private long startingTime;
 	private int maxMonths;
@@ -112,9 +113,9 @@ public class ServerTime {
 	 * @param y requested year
 	 */
 	public void setDate(int d, int m, int y) {
-		long yearSeconds = (long) ((y) * ySec);
-		long monthSeconds = (long) ((m) * mSec);
-		long daySeconds = (long) ((d) * dSec);
+		long yearSeconds = (y) * ySec;
+		long monthSeconds = (m) * mSec;
+		long daySeconds = (d) * dSec;
 		long totalMilis = yearSeconds + monthSeconds + daySeconds;
 		totalMilis*=1000;
 		startingTime = System.currentTimeMillis() - totalMilis;
@@ -133,9 +134,9 @@ public class ServerTime {
 	public void setDate(int d, int m, int y, int h, int min) {
 		long time = (long) (min*minSec);
 		time += (long) (h*hSec);
-		time += (long) (m*mSec);
-		time += (long) (d*dSec) ;
-		time += (long) (y*ySec);
+		time += m*mSec;
+		time += d*dSec ;
+		time += y*ySec;
 		time *= 1000;
 		startingTime= System.currentTimeMillis() - time;
 		updateTime();

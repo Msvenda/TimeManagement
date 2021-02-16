@@ -19,7 +19,9 @@ commands:
     permission: timeManager.manager
     permission-message: "You cannot use this command."
     usage: "/setDate <day> <month> <year> [<hour> <minute>]"
-  checkTime:
-    description: "check the date"
+  getTimeInfo:
+    description: "get detailed date and time information"
     permission: timeManager.manager
     permission-message: "You cannot use this command."
+  checkTime:
+    description: "check the date and time"
