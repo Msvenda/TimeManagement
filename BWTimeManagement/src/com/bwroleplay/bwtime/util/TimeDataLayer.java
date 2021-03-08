@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class DataLayer {
-    private static DataLayer singleton;
-    public static DataLayer getDataLayer(){
+public class TimeDataLayer {
+    private static TimeDataLayer singleton;
+    public static TimeDataLayer getDataLayer(){
         if(singleton == null){
-            singleton = new DataLayer();
+            singleton = new TimeDataLayer();
         }
         return singleton;
     }
@@ -27,7 +27,7 @@ public class DataLayer {
         this.months = months;
     }
 
-    private DataLayer(){
+    private TimeDataLayer(){
         worlds = new ArrayList<>();
     }
 

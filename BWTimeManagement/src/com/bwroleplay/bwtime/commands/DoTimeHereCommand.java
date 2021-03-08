@@ -1,6 +1,6 @@
 package com.bwroleplay.bwtime.commands;
 
-import com.bwroleplay.bwtime.util.DataLayer;
+import com.bwroleplay.bwtime.util.TimeDataLayer;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,14 +21,14 @@ public class DoTimeHereCommand implements CommandExecutor {
         if(args.length == 1) {
             doWorld = Boolean.parseBoolean(args[0]);
         }
-        DataLayer dataLayer = DataLayer.getDataLayer();
-        if(doWorld && !dataLayer.getWorlds().contains(p.getWorld().getUID())) {
-            dataLayer.getWorlds().add(p.getWorld().getUID());
-            p.getWorld().setTime(dataLayer.getServerTime().dayTimeInTicks());
+        TimeDataLayer timeDataLayer = TimeDataLayer.getDataLayer();
+        if(doWorld && !timeDataLayer.getWorlds().contains(p.getWorld().getUID())) {
+            timeDataLayer.getWorlds().add(p.getWorld().getUID());
+            p.getWorld().setTime(timeDataLayer.getServerTime().dayTimeInTicks());
             p.getWorld().setGameRuleValue("doDaylightCycle", "false");
         }
         else {
-            dataLayer.getWorlds().remove(p.getWorld().getUID());
+            timeDataLayer.getWorlds().remove(p.getWorld().getUID());
             p.getWorld().setGameRuleValue("doDaylightCycle", "true");
         }
         sender.sendMessage(ChatColor.GRAY + "[Server -> ME]:  Time tracking in world " + p.getWorld().getUID().toString() + ": " + doWorld);

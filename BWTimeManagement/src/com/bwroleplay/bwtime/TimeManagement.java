@@ -10,7 +10,7 @@ import com.bwroleplay.bwtime.commands.CheckTimeCommand;
 import com.bwroleplay.bwtime.commands.DoTimeHereCommand;
 import com.bwroleplay.bwtime.commands.GetTimeInfoCommand;
 import com.bwroleplay.bwtime.commands.SetDateCommand;
-import com.bwroleplay.bwtime.util.DataLayer;
+import com.bwroleplay.bwtime.util.TimeDataLayer;
 import com.bwroleplay.bwtime.util.LoggingTools;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -57,8 +57,8 @@ public class TimeManagement extends JavaPlugin{
 				updateInterval = config.getDouble("update interval (s)");
 				minutesInDay = config.getInt("minutes in day");
 				daysInMonth = config.getInt("game days in month");
-				DataLayer.getDataLayer().setMonths(config.getStringList("months"));
-				DataLayer.getDataLayer().setWorlds(
+				TimeDataLayer.getDataLayer().setMonths(config.getStringList("months"));
+				TimeDataLayer.getDataLayer().setWorlds(
 						config.getStringList("worlds").stream().map(UUID::fromString).collect(Collectors.toList())
 				);
 			}catch(Exception e) {
@@ -66,13 +66,13 @@ public class TimeManagement extends JavaPlugin{
 			}
 	
 		//stop day/night cycle in worlds
-		for(UUID uid : DataLayer.getDataLayer().getWorlds()) {
+		for(UUID uid : TimeDataLayer.getDataLayer().getWorlds()) {
 			Bukkit.getWorld(uid).setGameRuleValue("doDaylightCycle", "false");
 		}
 		
 		//initialize ServerTime with settings
-		DataLayer.getDataLayer().setServerTime(
-				new ServerTime(startingTime, DataLayer.getDataLayer().getMonths().size(), daysInMonth, minutesInDay, DataLayer.getDataLayer().getMonths())
+		TimeDataLayer.getDataLayer().setServerTime(
+				new ServerTime(startingTime, TimeDataLayer.getDataLayer().getMonths().size(), daysInMonth, minutesInDay, TimeDataLayer.getDataLayer().getMonths())
 		);
 		
 		//initialize time management runnable
@@ -116,8 +116,8 @@ public class TimeManagement extends JavaPlugin{
 		//save properties file
 		File propFile = new File(propertiesFile);
 		YamlConfiguration config = YamlConfiguration.loadConfiguration(propFile);
-		config.set("starting time", DataLayer.getDataLayer().getServerTime().getStartingTime());
-		config.set("worlds", DataLayer.getDataLayer().getWorlds().stream().map(UUID::toString).collect(Collectors.toList()));
+		config.set("starting time", TimeDataLayer.getDataLayer().getServerTime().getStartingTime());
+		config.set("worlds", TimeDataLayer.getDataLayer().getWorlds().stream().map(UUID::toString).collect(Collectors.toList()));
 		try {
 			config.save(propFile);
 		} catch (IOException e) {
@@ -133,10 +133,10 @@ public class TimeManagement extends JavaPlugin{
 			@Override
 			public void run() {
 				//get server time
-				DataLayer.getDataLayer().getServerTime().updateTime();
+				TimeDataLayer.getDataLayer().getServerTime().updateTime();
 				//set in-game time and disable daylight cycle if needed
-				long ticks = DataLayer.getDataLayer().getServerTime().dayTimeInTicks();
-				for(UUID uid : DataLayer.getDataLayer().getWorlds()) {
+				long ticks = TimeDataLayer.getDataLayer().getServerTime().dayTimeInTicks();
+				for(UUID uid : TimeDataLayer.getDataLayer().getWorlds()) {
 					World w = Bukkit.getWorld(uid);
 					if(Boolean.parseBoolean(w.getGameRuleValue("doDaylightCycle"))) {
 						w.setGameRuleValue("doDaylightCycle", "false");
@@ -144,14 +144,19 @@ public class TimeManagement extends JavaPlugin{
 					w.setFullTime(ticks);
 				}
 				//broadcast time 4 times a day
-				if(lastHour != DataLayer.getDataLayer().getServerTime().getHour()) {
-					lastHour = DataLayer.getDataLayer().getServerTime().getHour();
-					if(Arrays.asList(0, 6, 12, 18).contains(DataLayer.getDataLayer().getServerTime().getHour())) {
-						Bukkit.broadcastMessage(ChatColor.GRAY + DataLayer.getDataLayer().getServerTime().toString());
+				if(lastHour != TimeDataLayer.getDataLayer().getServerTime().getHour()) {
+					lastHour = TimeDataLayer.getDataLayer().getServerTime().getHour();
+					if(Arrays.asList(0, 6, 12, 18).contains(TimeDataLayer.getDataLayer().getServerTime().getHour())) {
+						Bukkit.broadcastMessage(ChatColor.GRAY + TimeDataLayer.getDataLayer().getServerTime().toString());
 					}
 				}
 			}
 		};
-		
+	}
+
+
+	//public api call
+	public TimeDataLayer getDataLayer(){
+		return TimeDataLayer.getDataLayer();
 	}
 }
