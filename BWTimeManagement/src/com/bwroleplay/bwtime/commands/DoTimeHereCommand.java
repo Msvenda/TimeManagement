@@ -1,6 +1,6 @@
 package com.bwroleplay.bwtime.commands;
 
-import com.bwroleplay.bwtime.util.DataLayer;
+import com.bwroleplay.bwtime.util.TimeDataLayer;
 import org.bukkit.ChatColor;
 import org.bukkit.GameRule;
 import org.bukkit.command.Command;
@@ -22,7 +22,7 @@ public class DoTimeHereCommand implements CommandExecutor {
         if(args.length == 1) {
             doWorld = Boolean.parseBoolean(args[0]);
         }
-        DataLayer dataLayer = DataLayer.getDataLayer();
+        TimeDataLayer dataLayer = TimeDataLayer.getDataLayer();
         if(doWorld && !dataLayer.getWorlds().contains(p.getWorld().getUID())) {
             dataLayer.getWorlds().add(p.getWorld().getUID());
             p.getWorld().setTime(dataLayer.getServerTime().dayTimeInTicks());
